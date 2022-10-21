@@ -10,7 +10,7 @@ export class App extends Component {
     filter: '',
   };
 
-  addContact = (value, {resetForm}) => {
+  addContact = (value, { resetForm }) => {
     const contact = { id: nanoid(), name: value.name, number: value.number };
     if (
       this.state.contacts.filter(el =>
@@ -23,7 +23,7 @@ export class App extends Component {
     } else {
       alert(`${value.name} is already in contacts`);
     }
-    resetForm()
+    resetForm();
   };
 
   filterChange = e => {
@@ -42,6 +42,19 @@ export class App extends Component {
     this.setState({ contacts: this.state.contacts.filter(el => el.id !== id) });
   };
 
+  componentDidMount() {
+    const contacts = localStorage.getItem('contacts');
+    const parsedContacts = JSON.parse(contacts);
+    this.setState({ contacts: parsedContacts });
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.state.contacts !== prevState.contacts) {
+      console.log('test');
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
+
   render() {
     return (
       <div
@@ -58,7 +71,7 @@ export class App extends Component {
         <ContactForm addContact={this.addContact} />
 
         <h2>Contacts</h2>
-        <Filter filter={this.state.filter} filterChange={ this.filterChange} />
+        <Filter filter={this.state.filter} filterChange={this.filterChange} />
         <ContactList
           contacts={this.filteredList()}
           deleteContact={this.deleteContact}
