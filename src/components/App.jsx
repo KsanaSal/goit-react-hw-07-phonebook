@@ -40,10 +40,6 @@ export const App = () => {
     setContacts(contacts.filter(el => el.id !== id));
   };
 
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
-
   return (
     <div
       style={{

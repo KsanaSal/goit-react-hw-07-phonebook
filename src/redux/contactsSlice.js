@@ -20,12 +20,22 @@ const contactsSlice = createSlice({
   reducers: {
     addContact: {
       reducer(state, action) {
-        state.push(action.payload);
-        console.log(state.contacts);
-        localStorage.setItem(
-          'contacts',
-          JSON.stringify(state.contacts.map(item => item))
+        let isDuplicate = true;
+        state.map(
+          item =>
+            (isDuplicate = !item.name
+              .toLocaleLowerCase()
+              .includes(action.payload.name.toLocaleLowerCase()))
         );
+        if (isDuplicate) {
+          state.push(action.payload);
+          localStorage.setItem(
+            'contacts',
+            JSON.stringify(state.map(item => item))
+          );
+        } else {
+          alert(`${action.payload.name} is already in contacts`);
+        }
       },
     },
     deleteContact(state, action) {
