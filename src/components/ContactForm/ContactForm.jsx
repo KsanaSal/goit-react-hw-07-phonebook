@@ -1,6 +1,5 @@
 import { nanoid } from '@reduxjs/toolkit';
 import { Formik } from 'formik';
-import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { addContact } from 'redux/contactsSlice';
 import { Field, Form, Label, Button } from './ContactForm.styled';
@@ -12,7 +11,7 @@ export const ContactForm = () => {
     dispatch(addContact(contact));
     resetForm();
   };
-  console.log(addContact);
+
   return (
     <div>
       <Formik
@@ -50,8 +49,4 @@ export const ContactForm = () => {
       </Formik>
     </div>
   );
-};
-
-ContactForm.propTypes = {
-  addContact: PropTypes.func.isRequired,
 };

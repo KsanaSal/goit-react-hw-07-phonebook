@@ -1,16 +1,19 @@
-// import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteContact } from 'redux/contactsSlice';
-import { getContacts } from 'redux/selector';
+import { getContacts, getFilter } from 'redux/selector';
 import { List, ListItem, Button, ListItemWrapper } from './ContactList.styled';
 
 export const ContactList = () => {
   const contacts = useSelector(getContacts);
   const dispatch = useDispatch();
-  console.log(contacts);
+  const filter = useSelector(getFilter);
+  const filteredList = contacts.filter(el =>
+    el.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
+  );
+
   return (
     <List>
-      {contacts.map(contact => {
+      {filteredList.map(contact => {
         return (
           <ListItem key={contact.id}>
             <ListItemWrapper>
@@ -28,14 +31,3 @@ export const ContactList = () => {
     </List>
   );
 };
-
-// ContactList.propTypes = {
-//   contacts: PropTypes.arrayOf(
-//     PropTypes.shape({
-//       id: PropTypes.string.isRequired,
-//       name: PropTypes.string.isRequired,
-//       number: PropTypes.string.isRequired,
-//     })
-//   ).isRequired,
-//   deleteContact: PropTypes.func.isRequired,
-// };
