@@ -30,11 +30,11 @@ export const App = () => {
     setFilter(e.target.value);
   };
 
-  const filteredList = () => {
-    return contacts.filter(el =>
-      el.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
-    );
-  };
+  // const filteredList = () => {
+  //   return contacts.filter(el =>
+  //     el.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
+  //   );
+  // };
 
   const deleteContact = id => {
     setContacts(contacts.filter(el => el.id !== id));
@@ -60,7 +60,7 @@ export const App = () => {
 
       <h2>Contacts</h2>
       <Filter filter={filter} filterChange={filterChange} />
-      <ContactList contacts={filteredList()} deleteContact={deleteContact} />
+      <ContactList deleteContact={deleteContact} />
     </div>
   );
 };

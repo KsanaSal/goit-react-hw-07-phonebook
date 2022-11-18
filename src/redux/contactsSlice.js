@@ -1,4 +1,7 @@
-import { createSlice, nanoid } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+
+const localContacts = localStorage.getItem('contacts');
+const parsedContacts = JSON.parse(localContacts);
 
 const contactsInitialState = [
   { id: '3YTyUrRs9KeDji_lWQAU8', name: 'Oksana', number: '451-25-36' },
@@ -10,13 +13,19 @@ const contactsInitialState = [
   { id: '3YTyUrRs9KeDji_lWQAU83f', name: 'Liza State', number: '450-55-39' },
 ];
 
+const contacts = parsedContacts || contactsInitialState;
 const contactsSlice = createSlice({
   name: 'Contacts',
-  initialState: contactsInitialState,
+  initialState: contacts,
   reducers: {
     addContact: {
       reducer(state, action) {
         state.push(action.payload);
+        console.log(state.contacts);
+        localStorage.setItem(
+          'contacts',
+          JSON.stringify(state.contacts.map(item => item))
+        );
       },
     },
     deleteContact(state, action) {

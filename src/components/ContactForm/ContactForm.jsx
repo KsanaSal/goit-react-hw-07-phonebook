@@ -1,8 +1,18 @@
+import { nanoid } from '@reduxjs/toolkit';
 import { Formik } from 'formik';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { addContact } from 'redux/contactsSlice';
 import { Field, Form, Label, Button } from './ContactForm.styled';
 
-export const ContactForm = ({ addContact }) => {
+export const ContactForm = () => {
+  const dispatch = useDispatch();
+  const handleSubmit = (value, { resetForm }) => {
+    const contact = { id: nanoid(), name: value.name, number: value.number };
+    dispatch(addContact(contact));
+    resetForm();
+  };
+  console.log(addContact);
   return (
     <div>
       <Formik
@@ -10,7 +20,7 @@ export const ContactForm = ({ addContact }) => {
           name: '',
           number: '',
         }}
-        onSubmit={addContact}
+        onSubmit={handleSubmit}
       >
         <Form>
           <Label htmlFor="name">Name</Label>
