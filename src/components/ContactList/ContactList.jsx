@@ -1,10 +1,12 @@
 // import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { deleteContact } from 'redux/contactsSlice';
 import { getContacts } from 'redux/selector';
 import { List, ListItem, Button, ListItemWrapper } from './ContactList.styled';
 
-export const ContactList = ({ deleteContact }) => {
+export const ContactList = () => {
   const contacts = useSelector(getContacts);
+  const dispatch = useDispatch();
   console.log(contacts);
   return (
     <List>
@@ -13,7 +15,10 @@ export const ContactList = ({ deleteContact }) => {
           <ListItem key={contact.id}>
             <ListItemWrapper>
               {contact.name}: {contact.number}
-              <Button type="button" onClick={() => deleteContact(contact.id)}>
+              <Button
+                type="button"
+                onClick={() => dispatch(deleteContact(contact.id))}
+              >
                 Delete
               </Button>
             </ListItemWrapper>
