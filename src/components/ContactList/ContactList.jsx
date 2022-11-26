@@ -4,7 +4,9 @@ import { getContacts, getFilter } from 'redux/selector';
 import { List, ListItem, Button, ListItemWrapper } from './ContactList.styled';
 
 export const ContactList = () => {
+  console.log(useSelector(s => s));
   const contacts = useSelector(getContacts);
+  console.log(contacts);
   const dispatch = useDispatch();
   const filter = useSelector(getFilter);
   const filteredList = contacts.filter(el =>
@@ -17,7 +19,7 @@ export const ContactList = () => {
         return (
           <ListItem key={contact.id}>
             <ListItemWrapper>
-              {contact.name}: {contact.number}
+              {contact.name}: {contact.phone}
               <Button
                 type="button"
                 onClick={() => dispatch(deleteContact(contact.id))}
