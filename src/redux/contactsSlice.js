@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { addContact, fetchContacts } from './operations';
+import { addContact, fetchContacts, deleteContact } from './operations';
 
 const handlePending = state => {
   console.log('first');
@@ -11,20 +11,6 @@ const handleRejected = (state, action) => {
   state.error = action.payload;
 };
 
-// const localContacts = localStorage.getItem('contacts');
-// const parsedContacts = JSON.parse(localContacts);7
-
-// const contactsInitialState = [
-//   { id: '3YTyUrRs9KeDji_lWQAU8', name: 'Oksana', number: '451-25-36' },
-//   {
-//     id: '3YTyUrRs9KeDji_lWQAU8pL',
-//     name: 'Oksana Salivon',
-//     number: '457-28-36',
-//   },
-//   { id: '3YTyUrRs9KeDji_lWQAU83f', name: 'Liza State', number: '450-55-39' },
-// ];
-
-// const contacts = parsedContacts || contactsInitialState;
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState: {
@@ -48,7 +34,24 @@ const contactsSlice = createSlice({
       state.items.push(action.payload);
     },
     [addContact.rejected]: handleRejected,
+    [deleteContact.pending]: handlePending,
+    [deleteContact.fulfilled](state, action) {
+      state.isLoading = false;
+      state.error = null;
+      const index = state.items.findIndex(
+        contact => contact.id === action.payload
+      );
+      console.log(action.payload);
+      state.items.splice(index, 1);
+    },
+    [deleteContact.rejected]: handleRejected,
   },
+
+  // deleteContact(state, action) {
+  //     const index = state.findIndex(contact => contact.id === action.payload);
+  //     state.splice(index, 1);
+  //     localStorage.setItem('contacts', JSON.stringify(state.map(item => item)));
+  //   },
 
   // reducers: {
   //   addContact: {
@@ -79,5 +82,5 @@ const contactsSlice = createSlice({
   // },
 });
 
-export const { deleteContact } = contactsSlice.actions;
+// export const { deleteContact } = contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;
