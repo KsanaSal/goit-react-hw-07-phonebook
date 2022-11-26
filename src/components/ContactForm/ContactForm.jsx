@@ -1,15 +1,29 @@
 import { nanoid } from '@reduxjs/toolkit';
 import { Formik } from 'formik';
-import { useDispatch } from 'react-redux';
-import { addContact } from 'redux/contactsSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from 'redux/operations';
+import { getContacts } from 'redux/selector';
 import { Field, Form, Label, Button } from './ContactForm.styled';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
   const handleSubmit = (value, { resetForm }) => {
-    const contact = { id: nanoid(), name: value.name, number: value.number };
-    dispatch(addContact(contact));
-    resetForm();
+    let isDuplicate = true;
+
+    contacts.map(
+      item =>
+        (isDuplicate = !item.name
+          .toLocaleLowerCase()
+          .includes(value.name.toLocaleLowerCase()))
+    );
+    if (isDuplicate) {
+      const contact = { id: nanoid(), name: value.name, phone: value.number };
+      dispatch(addContact(contact));
+      resetForm();
+    } else {
+      alert(`${value.name} is already in contacts`);
+    }
   };
 
   return (
