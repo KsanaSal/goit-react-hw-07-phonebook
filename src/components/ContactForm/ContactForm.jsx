@@ -1,13 +1,13 @@
-import { nanoid } from '@reduxjs/toolkit';
+// import { nanoid } from '@reduxjs/toolkit';
 import { Formik } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'redux/operations';
-import { getContacts } from 'redux/selector';
+import { selectContacts } from 'redux/selector';
 import { Field, Form, Label, Button } from './ContactForm.styled';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
   const handleSubmit = (value, { resetForm }) => {
     let isDuplicate = true;
 
@@ -18,7 +18,7 @@ export const ContactForm = () => {
           .includes(value.name.toLocaleLowerCase()))
     );
     if (isDuplicate) {
-      const contact = { id: nanoid(), name: value.name, phone: value.number };
+      const contact = { name: value.name, phone: value.number };
       dispatch(addContact(contact));
       resetForm();
     } else {
