@@ -2,7 +2,6 @@ import { createSlice } from '@reduxjs/toolkit';
 import { addContact, fetchContacts, deleteContact } from './operations';
 
 const handlePending = state => {
-  console.log('first');
   state.isLoading = true;
 };
 
@@ -39,48 +38,12 @@ const contactsSlice = createSlice({
       state.isLoading = false;
       state.error = null;
       const index = state.items.findIndex(
-        contact => contact.id === action.payload
+        contact => contact.id === action.payload.id
       );
-      console.log(action.payload);
       state.items.splice(index, 1);
     },
     [deleteContact.rejected]: handleRejected,
   },
-
-  // deleteContact(state, action) {
-  //     const index = state.findIndex(contact => contact.id === action.payload);
-  //     state.splice(index, 1);
-  //     localStorage.setItem('contacts', JSON.stringify(state.map(item => item)));
-  //   },
-
-  // reducers: {
-  //   addContact: {
-  //     reducer(state, action) {
-  //       let isDuplicate = true;
-  //       state.map(
-  //         item =>
-  //           (isDuplicate = !item.name
-  //             .toLocaleLowerCase()
-  //             .includes(action.payload.name.toLocaleLowerCase()))
-  //       );
-  //       if (isDuplicate) {
-  //         state.push(action.payload);
-  //         localStorage.setItem(
-  //           'contacts',
-  //           JSON.stringify(state.map(item => item))
-  //         );
-  //       } else {
-  //         alert(`${action.payload.name} is already in contacts`);
-  //       }
-  //     },
-  //   },
-  //   deleteContact(state, action) {
-  //     const index = state.findIndex(contact => contact.id === action.payload);
-  //     state.splice(index, 1);
-  //     localStorage.setItem('contacts', JSON.stringify(state.map(item => item)));
-  //   },
-  // },
 });
 
-// export const { deleteContact } = contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;
